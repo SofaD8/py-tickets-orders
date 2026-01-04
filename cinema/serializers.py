@@ -80,7 +80,6 @@ class MovieSessionListSerializer(MovieSessionSerializer):
             "tickets_available",
         )
 
-
     def get_tickets_available(self, obj: MovieSession) -> int:
         return obj.cinema_hall.capacity - obj.tickets.count()
 
@@ -93,7 +92,6 @@ class MovieSessionDetailSerializer(MovieSessionSerializer):
     class Meta:
         model = MovieSession
         fields = ("id", "show_time", "movie", "cinema_hall", "taken_places")
-
 
     def get_taken_places(self, obj: MovieSession) -> list[dict]:
         return [{"row": t.row, "seat": t.seat} for t in obj.tickets.all()]

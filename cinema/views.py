@@ -83,7 +83,7 @@ class MovieSessionViewSet(viewsets.ModelViewSet):
     serializer_class = MovieSessionSerializer
     pagination_class = None
 
-    def get_queryset(self)-> QuerySet[MovieSession]:
+    def get_queryset(self) -> QuerySet[MovieSession]:
         queryset = super().get_queryset()
         date = self.request.query_params.get("date")
         movie = self.request.query_params.get("movie")
@@ -109,8 +109,9 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self)-> QuerySet[Order]:
-        return Order.objects.filter(user=self.request.user).prefetch_related("tickets")
+    def get_queryset(self) -> QuerySet[Order]:
+        return (Order.objects.filter(user=self.request.user)
+                .prefetch_related("tickets"))
 
     def get_serializer_class(self) -> type:
         if self.action in ["list", "retrieve"]:

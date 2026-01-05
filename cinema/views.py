@@ -110,8 +110,13 @@ class OrderViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self) -> QuerySet[Order]:
-        return (Order.objects.filter(user=self.request.user)
-                .prefetch_related("tickets"))
+        return (
+            Order.objects.filter(user=self.request.user)
+            .prefetch_related(
+                "tickets__movie_session__movie",
+                "tickets__movie_session__cinema_hall"
+            )
+        )
 
     def get_serializer_class(self) -> type:
         if self.action in ["list", "retrieve"]:
